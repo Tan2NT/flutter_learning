@@ -14,20 +14,22 @@ class MyApp extends StatefulWidget {
 class MyAppSate extends State<MyApp> {
   var selectingIndex = 0;
   var questions = [
-    'What is your favorite color?',
-    'What is your favorite animal'
+    ['What is your favorite color?', 'yellow', 'white', 'red'],
+    ['What is your favorite animal', 'dog', 'cat', 'mouse']
   ];
 
   void answerQuestion(var chosenIndex) {
+    print(
+        'Your chose ${questions.elementAt(selectingIndex).elementAt(chosenIndex)}!');
     setState(() {
       selectingIndex =
           (selectingIndex < questions.length - 1) ? selectingIndex + 1 : 0;
     });
-    print('Answer ${chosenIndex} is chosen!');
   }
 
   @override
   Widget build(BuildContext context) {
+    var selectedQuestion = questions.elementAt(selectingIndex);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -35,14 +37,18 @@ class MyAppSate extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Text(questions.elementAt(selectingIndex)),
+            Text(selectedQuestion.elementAt(0)),
             RaisedButton(
-              child: Text('Answer 1'),
+              child: Text(selectedQuestion.elementAt(1)),
               onPressed: () => answerQuestion(1),
             ),
             RaisedButton(
-              child: Text('Answer 2'),
+              child: Text(selectedQuestion.elementAt(2)),
               onPressed: () => answerQuestion(2),
+            ),
+            RaisedButton(
+              child: Text(selectedQuestion.elementAt(3)),
+              onPressed: () => answerQuestion(3),
             ),
           ],
         ),
