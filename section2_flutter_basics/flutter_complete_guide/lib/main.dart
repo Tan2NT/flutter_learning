@@ -3,6 +3,7 @@ import 'package:flutter_complete_guide/answer.dart';
 import 'package:flutter_complete_guide/quiz.dart';
 
 import './question.dart';
+import './result.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,6 +53,13 @@ class _MyAppSate extends State<MyApp> {
     });
   }
 
+  void resetQuiz() {
+    setState(() {
+      _selectingIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var answerIndex = 0;
@@ -62,9 +70,7 @@ class _MyAppSate extends State<MyApp> {
         ),
         body: _selectingIndex < questions.length
             ? Quiz(questions[_selectingIndex], answerQuestion)
-            : Center(
-                child: Text('You did it!'),
-              ),
+            : Result(_totalScore, resetQuiz),
       ),
     );
   }
