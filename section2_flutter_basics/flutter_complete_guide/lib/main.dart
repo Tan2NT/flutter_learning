@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/answer.dart';
+import 'package:flutter_complete_guide/quiz.dart';
 
 import './question.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppSate extends State<MyApp> {
   var _selectingIndex = 0;
 
-  var questions = [
+  var questions = const [
     {
       'questionText': 'What is your favorite color?',
       'answers': ['yellow', 'white', 'red']
@@ -32,29 +33,24 @@ class _MyAppSate extends State<MyApp> {
     print(
         'you chose ${(questions[_selectingIndex]['answers'] as List<String>).elementAt(chosenIndex)}');
     setState(() {
-      _selectingIndex =
-          (_selectingIndex < questions.length - 1) ? _selectingIndex + 1 : 0;
+      _selectingIndex += 1;
+      //(_selectingIndex < questions.length - 1) ? _selectingIndex + 1 : 0;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var selectedQuestion = questions[_selectingIndex];
     var answerIndex = 0;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Question(questions[_selectingIndex]['questionText'].toString()),
-            ...(questions[_selectingIndex]['answers'] as List<String>)
-                .map((answer) {
-              return Answer(answer, answerIndex++, answerQuestion);
-            }).toList()
-          ],
-        ),
+        body: _selectingIndex < questions.length
+            ? Quiz(questions[_selectingIndex], answerQuestion)
+            : Center(
+                child: Text('You did it!'),
+              ),
       ),
     );
   }
