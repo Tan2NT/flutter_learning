@@ -17,21 +17,35 @@ class MyApp extends StatefulWidget {
 
 class _MyAppSate extends State<MyApp> {
   var _selectingIndex = 0;
+  var _totalScore = 0;
 
   var questions = const [
     {
       'questionText': 'What is your favorite color?',
-      'answers': ['yellow', 'white', 'red']
+      'answers': [
+        {'text': 'yellow', 'score': 5},
+        {'text': 'white', 'score': 7},
+        {'text': 'red', 'score': 6},
+      ]
     },
     {
       'questionText': 'What is your favorite animal?',
-      'answers': ['dog', 'cat', 'mouse']
+      'answers': [
+        {'text': 'dog', 'score': 9},
+        {'text': 'cat', 'score': 6},
+        {'text': 'cat', 'score': 8},
+      ]
     },
   ];
 
   void answerQuestion(int chosenIndex) {
+    var selectedAnswer =
+        (questions[_selectingIndex]['answers'] as List<Map<String, Object>>)
+            .elementAt(chosenIndex);
+    var addingScore = selectedAnswer['score'] as int;
+    _totalScore += addingScore;
     print(
-        'you chose ${(questions[_selectingIndex]['answers'] as List<String>).elementAt(chosenIndex)}');
+        'you chose ${selectedAnswer['text'] as String} has ${addingScore} score => total Score: ${_totalScore}');
     setState(() {
       _selectingIndex += 1;
       //(_selectingIndex < questions.length - 1) ? _selectingIndex + 1 : 0;
