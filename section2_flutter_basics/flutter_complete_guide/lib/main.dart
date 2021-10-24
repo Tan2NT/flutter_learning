@@ -16,14 +16,21 @@ class MyApp extends StatefulWidget {
 
 class _MyAppSate extends State<MyApp> {
   var _selectingIndex = 0;
+
   var questions = [
-    ['What is your favorite color?', 'yellow', 'white', 'red'],
-    ['What is your favorite animal', 'dog', 'cat', 'mouse']
+    {
+      'questionText': 'What is your favorite color?',
+      'answers': ['yellow', 'white', 'red']
+    },
+    {
+      'questionText': 'What is your favorite animal?',
+      'answers': ['dog', 'cat', 'mouse']
+    },
   ];
 
   void answerQuestion(int chosenIndex) {
     print(
-        'Your chose ${questions.elementAt(_selectingIndex).elementAt(chosenIndex)}!');
+        'you chose ${(questions[_selectingIndex]['answers'] as List<String>).elementAt(chosenIndex)}');
     setState(() {
       _selectingIndex =
           (_selectingIndex < questions.length - 1) ? _selectingIndex + 1 : 0;
@@ -32,7 +39,8 @@ class _MyAppSate extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var selectedQuestion = questions.elementAt(_selectingIndex);
+    var selectedQuestion = questions[_selectingIndex];
+    var answerIndex = 0;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -40,10 +48,11 @@ class _MyAppSate extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Question(selectedQuestion.elementAt(0)),
-            Answer(selectedQuestion.elementAt(1), 1, answerQuestion),
-            Answer(selectedQuestion.elementAt(2), 2, answerQuestion),
-            Answer(selectedQuestion.elementAt(3), 3, answerQuestion),
+            Question(questions[_selectingIndex]['questionText'].toString()),
+            ...(questions[_selectingIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(answer, answerIndex++, answerQuestion);
+            }).toList()
           ],
         ),
       ),
