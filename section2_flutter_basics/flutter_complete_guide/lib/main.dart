@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/answer.dart';
 
 import './question.dart';
 
@@ -20,7 +21,7 @@ class _MyAppSate extends State<MyApp> {
     ['What is your favorite animal', 'dog', 'cat', 'mouse']
   ];
 
-  void answerQuestion(var chosenIndex) {
+  void answerQuestion(int chosenIndex) {
     print(
         'Your chose ${questions.elementAt(_selectingIndex).elementAt(chosenIndex)}!');
     setState(() {
@@ -40,18 +41,9 @@ class _MyAppSate extends State<MyApp> {
         body: Column(
           children: [
             Question(selectedQuestion.elementAt(0)),
-            RaisedButton(
-              child: Text(selectedQuestion.elementAt(1)),
-              onPressed: () => answerQuestion(1),
-            ),
-            RaisedButton(
-              child: Text(selectedQuestion.elementAt(2)),
-              onPressed: () => answerQuestion(2),
-            ),
-            RaisedButton(
-              child: Text(selectedQuestion.elementAt(3)),
-              onPressed: () => answerQuestion(3),
-            ),
+            Answer(selectedQuestion.elementAt(1), 1, answerQuestion),
+            Answer(selectedQuestion.elementAt(2), 2, answerQuestion),
+            Answer(selectedQuestion.elementAt(3), 3, answerQuestion),
           ],
         ),
       ),
