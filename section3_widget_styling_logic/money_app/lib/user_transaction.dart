@@ -27,8 +27,6 @@ class _UserTransactionState extends State<UserTransaction> {
         67.00, DateTime.now()),
     Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 4",
         89.00, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 5",
-        82.00, DateTime.now()),
   ];
 
   final titleController = TextEditingController();
