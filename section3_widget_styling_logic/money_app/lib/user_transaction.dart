@@ -32,6 +32,18 @@ class _UserTransactionState extends State<UserTransaction> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
 
+  void startAddTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (bctx) {
+          return GestureDetector(
+            onTap: () {},
+            child: TransactionInput(addTransaction),
+            behavior: HitTestBehavior.opaque,
+          );
+        });
+  }
+
   void addTransaction(Transaction transaction) {
     setState(() {
       transactions.add(transaction);
@@ -43,26 +55,25 @@ class _UserTransactionState extends State<UserTransaction> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Money Management"),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                startAddTransaction(context);
+              })
+        ],
       ),
       body: Column(
-        // child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            child: Card(
-              color: Colors.blue,
-              child: Text(
-                "CHART",
-                style: TextStyle(fontSize: 24, color: Colors.white),
-              ),
-            ),
-          ),
-          TransactionInput(addTransaction),
           TransactionList(transactions),
         ],
         // ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          startAddTransaction(context);
+        },
       ),
     );
   }

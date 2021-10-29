@@ -2,15 +2,35 @@ import 'package:flutter/material.dart';
 
 import './transaction.dart';
 
-class TransactionInput extends StatelessWidget {
+class TransactionInput extends StatefulWidget {
   void Function(Transaction) _addTransactionHandler;
 
   TransactionInput(this._addTransactionHandler);
 
+  void onSubmitted(String title, String amount) {
+    if (title.isEmpty || amount.isEmpty) return;
+
+    _addTransactionHandler(Transaction(
+        DateTime.now().microsecondsSinceEpoch.toString(),
+        title,
+        double.parse(amount),
+        DateTime.now()));
+  }
+
+  @override
+  _TransactionInputState createState() => _TransactionInputState(onSubmitted);
+}
+
+class _TransactionInputState extends State<TransactionInput> {
+  void Function(String, String) _onSubmitted;
+
+  _TransactionInputState(this._onSubmitted);
+
+  final titleControler = TextEditingController();
+  final amountControler = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final titleControler = TextEditingController();
-    final amountControler = TextEditingController();
     return Card(
       elevation: 5,
       child: Container(
@@ -29,11 +49,7 @@ class TransactionInput extends StatelessWidget {
             FlatButton(
                 child: Text('Add transaction'),
                 onPressed: () {
-                  _addTransactionHandler(Transaction(
-                      DateTime.now().microsecondsSinceEpoch.toString(),
-                      titleControler.text,
-                      double.parse(amountControler.text),
-                      DateTime.now()));
+                  _onSubmitted(titleControler.text, amountControler.text);
                 })
           ],
         ),
