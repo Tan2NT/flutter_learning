@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_app/transaction.dart';
+import 'package:intl/intl.dart';
 
 import './transaction.dart';
 
@@ -30,9 +31,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> transactions = [
-    Transaction("01", "Buy a ball", 100, DateTime.now()),
-    Transaction("02", "Living fee", 2000, DateTime.now()),
-    Transaction("03", "Chicken dry", 200, DateTime.now()),
+    Transaction("01", "Buy a ball", 23.45, DateTime.now()),
+    Transaction("02", "Living fee", 69.99, DateTime.now()),
+    Transaction("03", "Chicken dry", 200.00, DateTime.now()),
   ];
 
   @override
@@ -42,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text("Money Management"),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -52,6 +53,24 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text(
                 "CHART",
                 style: TextStyle(fontSize: 24, color: Colors.white),
+              ),
+            ),
+          ),
+          Card(
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Title'),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: "Amount"),
+                  ),
+                  FlatButton(onPressed: null, child: Text('Add transaction'))
+                ],
               ),
             ),
           ),
@@ -68,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.all(10),
                       child: Card(
                           child: Text(
-                        tx.amount.toString(),
+                        '\$ ${tx.amount}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -83,13 +102,17 @@ class _MyHomePageState extends State<MyHomePage> {
                           Card(
                               child: Text(
                             tx.title,
-                            style: TextStyle(color: Colors.blue, fontSize: 14),
-                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.left,
                           )),
                           Card(
-                              child: Text(tx.date.toIso8601String(),
+                              child: Text(DateFormat.MMMEd().format(tx.date),
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 12))),
+                                      color: Colors.grey, fontSize: 12),
+                                  textAlign: TextAlign.left)),
                         ],
                       ),
                     )
