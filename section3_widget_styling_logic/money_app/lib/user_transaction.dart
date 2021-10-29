@@ -19,6 +19,16 @@ class _UserTransactionState extends State<UserTransaction> {
         69.99, DateTime.now()),
     Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Chicken dry",
         200.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 1",
+        24.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 2",
+        46.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 3",
+        67.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 4",
+        89.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 5",
+        82.00, DateTime.now()),
   ];
 
   final titleController = TextEditingController();
@@ -37,6 +47,7 @@ class _UserTransactionState extends State<UserTransaction> {
         title: Text("Money Management"),
       ),
       body: Column(
+        // child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -53,6 +64,7 @@ class _UserTransactionState extends State<UserTransaction> {
           TransactionInput(addTransaction),
           TransactionList(transactions),
         ],
+        // ),
       ),
     );
   }
