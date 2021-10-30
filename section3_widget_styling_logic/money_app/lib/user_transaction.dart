@@ -55,6 +55,7 @@ class _UserTransactionState extends State<UserTransaction> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Money Management"),
+        backgroundColor: Colors.blueAccent,
         actions: [
           IconButton(
               icon: Icon(Icons.add),
