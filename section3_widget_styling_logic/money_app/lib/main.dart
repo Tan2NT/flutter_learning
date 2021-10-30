@@ -21,7 +21,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Money Management',
-      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'RobotoMono'),
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+          fontFamily: 'RobotoMono',
+          textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(fontWeight: FontWeight.bold, fontSize: 22))),
       home: UserTransaction(),
     );
   }
