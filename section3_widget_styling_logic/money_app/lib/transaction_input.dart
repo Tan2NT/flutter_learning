@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 import './transaction.dart';
@@ -7,27 +8,29 @@ class TransactionInput extends StatefulWidget {
 
   TransactionInput(this._addTransactionHandler);
 
-  void onSubmitted(String title, String amount) {
+  @override
+  State<TransactionInput> createState() => _TransactionInputState();
+}
+
+class _TransactionInputState extends State<TransactionInput> {
+  final titleControler = TextEditingController();
+
+  final amountControler = TextEditingController();
+
+  void submitData() {
+    String title = titleControler.text;
+    String amount = amountControler.text;
+
     if (title.isEmpty || amount.isEmpty) return;
 
-    _addTransactionHandler(Transaction(
+    widget._addTransactionHandler(Transaction(
         DateTime.now().microsecondsSinceEpoch.toString(),
         title,
         double.parse(amount),
         DateTime.now()));
+
+    Navigator.of(context).pop();
   }
-
-  @override
-  _TransactionInputState createState() => _TransactionInputState(onSubmitted);
-}
-
-class _TransactionInputState extends State<TransactionInput> {
-  void Function(String, String) _onSubmitted;
-
-  _TransactionInputState(this._onSubmitted);
-
-  final titleControler = TextEditingController();
-  final amountControler = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +44,35 @@ class _TransactionInputState extends State<TransactionInput> {
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
               controller: titleControler,
+              onSubmitted: (_) => submitData(),
             ),
             TextField(
               decoration: InputDecoration(labelText: "Amount"),
               controller: amountControler,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitData(),
+            ),
+            Container(
+              height: 70,
+              child: Row(
+                children: [
+                  Text('No Date Chosen!'),
+                  FlatButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Choose Date',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      textColor: Theme.of(context).primaryColor)
+                ],
+              ),
             ),
             FlatButton(
-                child: Text('Add transaction'),
-                onPressed: () {
-                  _onSubmitted(titleControler.text, amountControler.text);
-                })
+                child: Text('Add transaction',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                color: Theme.of(context).primaryColor,
+                textColor: Colors.white,
+                onPressed: submitData)
           ],
         ),
       ),

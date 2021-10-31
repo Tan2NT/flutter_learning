@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:money_app/transaction.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +23,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: 'RobotoMono',
           textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(fontWeight: FontWeight.bold, fontSize: 22))),
+              headline6: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              button: TextStyle(color: Colors.white))),
       home: UserTransaction(),
     );
   }
