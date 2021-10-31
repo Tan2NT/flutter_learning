@@ -81,7 +81,7 @@ class _UserTransactionState extends State<UserTransaction> {
       body: Column(
         children: [
           Chart(_recentTransactions),
-          TransactionList(transactions, deleteTransaction)
+          Expanded(child: TransactionList(transactions, deleteTransaction))
         ],
         // ),
       ),
