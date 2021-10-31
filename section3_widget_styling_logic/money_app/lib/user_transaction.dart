@@ -52,8 +52,6 @@ class _UserTransactionState extends State<UserTransaction> {
   }
 
   List<Transaction> get _recentTransactions {
-    var myList = [0, 2, 4, 6, 8, 2, 7];
-    myList.where((item) => item > 5).toList();
     return transactions
         .where(
             (tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 7))))

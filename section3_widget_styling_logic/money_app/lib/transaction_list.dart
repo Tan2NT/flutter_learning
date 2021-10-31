@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:money_app/transaction.dart';
 import 'package:money_app/transaction_item.dart';
 
@@ -29,7 +30,28 @@ class TransactionList extends StatelessWidget {
             ])
           : ListView.builder(
               itemBuilder: (context, index) {
-                return TransactionItem(_userTransactions[index]);
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  elevation: 5,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: FittedBox(
+                          child: Text('\$${_userTransactions[index].amount}'),
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      _userTransactions[index].title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    subtitle: Text(DateFormat.yMMMd()
+                        .format(_userTransactions[index].date)),
+                  ),
+                );
+                //TransactionItem(_userTransactions[index])
               },
               itemCount: _userTransactions.length,
             ),
