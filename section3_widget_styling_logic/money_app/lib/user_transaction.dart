@@ -51,6 +51,12 @@ class _UserTransactionState extends State<UserTransaction> {
     });
   }
 
+  void deleteTransaction(String id) {
+    setState(() {
+      transactions.removeWhere((tx) => tx.id == id);
+    });
+  }
+
   List<Transaction> get _recentTransactions {
     return transactions
         .where(
@@ -75,7 +81,7 @@ class _UserTransactionState extends State<UserTransaction> {
       body: Column(
         children: [
           Chart(_recentTransactions),
-          TransactionList(transactions),
+          TransactionList(transactions, deleteTransaction)
         ],
         // ),
       ),
