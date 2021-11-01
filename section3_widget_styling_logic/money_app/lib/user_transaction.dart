@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 import './transaction.dart';
@@ -103,7 +104,8 @@ class _UserTransactionState extends State<UserTransaction> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Show Chart"),
-                      Switch(
+                      Switch.adaptive(
+                          activeColor: Theme.of(context).colorScheme.secondary,
                           value: _showChart,
                           onChanged: (val) {
                             setState(() {
@@ -137,12 +139,14 @@ class _UserTransactionState extends State<UserTransaction> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          startAddTransaction(context);
-        },
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                startAddTransaction(context);
+              },
+            ),
     );
   }
 }
