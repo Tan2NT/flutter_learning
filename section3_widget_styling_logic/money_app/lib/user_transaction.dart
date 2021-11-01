@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import './transaction.dart';
 import './transaction_input.dart';
@@ -75,78 +76,98 @@ class _UserTransactionState extends State<UserTransaction> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    var appBar = AppBar(
-      title: Text("Money Management"),
-      backgroundColor: Colors.blueAccent,
-      actions: [
-        IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              startAddTransaction(context);
-            })
-      ],
-    );
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text("Money Management"),
+            trailing: Row(
+              children: [
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => startAddTransaction(context),
+                )
+              ],
+            ),
+          ) as PreferredSizeWidget
+        : AppBar(
+            title: Text("Money Management"),
+            backgroundColor: Colors.blueAccent,
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    startAddTransaction(context);
+                  })
+            ],
+          );
+
     final txListWidget = Container(
         height: (mediaQuery.size.height -
                 appBar.preferredSize.height -
                 mediaQuery.padding.top) *
             0.7,
         child: TransactionList(transactions, deleteTransaction));
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (isLandscape)
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Show Chart"),
-                      Switch.adaptive(
-                          activeColor: Theme.of(context).colorScheme.secondary,
-                          value: _showChart,
-                          onChanged: (val) {
-                            setState(() {
-                              _showChart = val;
-                            });
-                          })
-                    ],
-                  ),
-                  _showChart
-                      ? Container(
-                          height: (mediaQuery.size.height -
-                                  appBar.preferredSize.height -
-                                  mediaQuery.padding.top) *
-                              1,
-                          child: Chart(_recentTransactions))
-                      : txListWidget
-                ],
-              ),
-            if (!isLandscape)
-              Column(
-                children: [
-                  Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.3,
-                      child: Chart(_recentTransactions)),
-                  txListWidget
-                ],
-              )
-          ],
-        ),
-      ),
-      floatingActionButton: Platform.isIOS
-          ? Container()
-          : FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                startAddTransaction(context);
-              },
+
+    final pageBody = SingleChildScrollView(
+      child: Column(
+        children: [
+          if (isLandscape)
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Show Chart"),
+                    Switch.adaptive(
+                        activeColor: Theme.of(context).colorScheme.secondary,
+                        value: _showChart,
+                        onChanged: (val) {
+                          setState(() {
+                            _showChart = val;
+                          });
+                        })
+                  ],
+                ),
+                _showChart
+                    ? Container(
+                        height: (mediaQuery.size.height -
+                                appBar.preferredSize.height -
+                                mediaQuery.padding.top) *
+                            1,
+                        child: Chart(_recentTransactions))
+                    : txListWidget
+              ],
             ),
+          if (!isLandscape)
+            Column(
+              children: [
+                Container(
+                    height: (mediaQuery.size.height -
+                            appBar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        0.3,
+                    child: Chart(_recentTransactions)),
+                txListWidget
+              ],
+            )
+        ],
+      ),
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: pageBody,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: pageBody,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      startAddTransaction(context);
+                    },
+                  ),
+          );
   }
 }
