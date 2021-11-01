@@ -80,6 +80,7 @@ class _UserTransactionState extends State<UserTransaction> {
         ? CupertinoNavigationBar(
             middle: Text("Money Management"),
             trailing: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 GestureDetector(
                   child: Icon(CupertinoIcons.add),
@@ -107,7 +108,8 @@ class _UserTransactionState extends State<UserTransaction> {
             0.7,
         child: TransactionList(transactions, deleteTransaction));
 
-    final pageBody = SingleChildScrollView(
+    final pageBody = SafeArea(
+        child: SingleChildScrollView(
       child: Column(
         children: [
           if (isLandscape)
@@ -151,7 +153,7 @@ class _UserTransactionState extends State<UserTransaction> {
             )
         ],
       ),
-    );
+    ));
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
