@@ -48,10 +48,9 @@ class Chart extends StatelessWidget {
                     child: ChartBar(
                         data['day'].toString(),
                         double.parse(data['amount'].toString()),
-                        double.parse(data['amount'].toString()) /
-                                    totalSpending !=
-                                null
-                            ? totalSpending
+                        (totalSpending != null)
+                            ? double.parse(data['amount'].toString()) /
+                                totalSpending
                             : 0.0));
               }).toList()),
         ));
