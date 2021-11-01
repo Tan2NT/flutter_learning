@@ -14,25 +14,27 @@ class UserTransaction extends StatefulWidget {
 
 class _UserTransactionState extends State<UserTransaction> {
   final List<Transaction> transactions = [
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Buy a ball",
-        23.45, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Living fee",
-        69.99, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Chicken dry",
-        200.00, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 1",
-        24.00, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 2",
-        46.00, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 3",
-        67.00, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 4",
-        89.00, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 5",
-        56.00, DateTime.now()),
-    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 6",
-        71.00, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Buy a ball",
+    //     23.45, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Living fee",
+    //     69.99, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Chicken dry",
+    //     200.00, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 1",
+    //     24.00, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 2",
+    //     46.00, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 3",
+    //     67.00, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 4",
+    //     89.00, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 5",
+    //     56.00, DateTime.now()),
+    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 6",
+    //     71.00, DateTime.now()),
   ];
+
+  bool _showChart = false;
 
   final titleController = TextEditingController();
   final amountController = TextEditingController();
@@ -86,18 +88,32 @@ class _UserTransactionState extends State<UserTransaction> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.3,
-                child: Chart(_recentTransactions)),
-            Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.7,
-                child: TransactionList(transactions, deleteTransaction))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Show Chart"),
+                Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    })
+              ],
+            ),
+            _showChart
+                ? Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        1,
+                    child: Chart(_recentTransactions))
+                : Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        1,
+                    child: TransactionList(transactions, deleteTransaction))
           ],
         ),
       ),
