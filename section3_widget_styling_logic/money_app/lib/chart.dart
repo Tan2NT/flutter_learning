@@ -49,7 +49,10 @@ class Chart extends StatelessWidget {
                         data['day'].toString(),
                         double.parse(data['amount'].toString()),
                         double.parse(data['amount'].toString()) /
-                            totalSpending));
+                                    totalSpending !=
+                                null
+                            ? totalSpending
+                            : 0.0));
               }).toList()),
         ));
   }

@@ -4,10 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:money_app/transaction_input.dart';
 import 'package:money_app/transaction_list.dart';
 import 'package:money_app/user_transaction.dart';
+import 'package:flutter/services.dart';
 
 import './transaction.dart';
 
 void main() {
+  //WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
 }
 
