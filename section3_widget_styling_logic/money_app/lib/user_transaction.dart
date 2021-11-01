@@ -22,12 +22,16 @@ class _UserTransactionState extends State<UserTransaction> {
         200.00, DateTime.now()),
     Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 1",
         24.00, DateTime.now()),
-    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 2",
-    //     46.00, DateTime.now()),
-    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 3",
-    //     67.00, DateTime.now()),
-    // Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 4",
-    //     89.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 2",
+        46.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 3",
+        67.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 4",
+        89.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 5",
+        56.00, DateTime.now()),
+    Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Test 6",
+        71.00, DateTime.now()),
   ];
 
   final titleController = TextEditingController();
@@ -66,24 +70,36 @@ class _UserTransactionState extends State<UserTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    var appBar = AppBar(
+      title: Text("Money Management"),
+      backgroundColor: Colors.blueAccent,
+      actions: [
+        IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              startAddTransaction(context);
+            })
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Money Management"),
-        backgroundColor: Colors.blueAccent,
-        actions: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                startAddTransaction(context);
-              })
-        ],
-      ),
-      body: Column(
-        children: [
-          Chart(_recentTransactions),
-          Expanded(child: TransactionList(transactions, deleteTransaction))
-        ],
-        // ),
+      appBar: appBar,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.4,
+                child: Chart(_recentTransactions)),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.6,
+                child: TransactionList(transactions, deleteTransaction))
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
