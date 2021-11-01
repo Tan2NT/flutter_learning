@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:money_app/transaction.dart';
-import 'package:intl/intl.dart';
-import 'package:money_app/transaction_input.dart';
-import 'package:money_app/transaction_list.dart';
-import 'package:money_app/user_transaction.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart';
 
-import './transaction.dart';
+import 'package:flutter/material.dart';
+import 'package:money_app/user_transaction.dart';
 
 void main() {
   //WidgetsFlutterBinding.ensureInitialized();
