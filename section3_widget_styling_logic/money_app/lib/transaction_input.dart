@@ -8,16 +8,43 @@ import './transaction.dart';
 class TransactionInput extends StatefulWidget {
   void Function(Transaction) _addTransactionHandler;
 
-  TransactionInput(this._addTransactionHandler);
+  TransactionInput(this._addTransactionHandler) {
+    print('Constructor ---------- ');
+  }
 
   @override
-  State<TransactionInput> createState() => _TransactionInputState();
+  State<TransactionInput> createState() {
+    print('createState');
+    return _TransactionInputState();
+  }
 }
 
 class _TransactionInputState extends State<TransactionInput> {
   final _titleControler = TextEditingController();
   final _amountControler = TextEditingController();
   DateTime? _selectedDate = null;
+
+  _TransactionInputState() {
+    print('new _TransactionInputState');
+  }
+
+  @override
+  void initState() {
+    print('initState');
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant TransactionInput oldWidget) {
+    print('didUpdateWidget');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    print('dispose');
+    super.dispose();
+  }
 
   void _submitData() {
     String title = _titleControler.text;

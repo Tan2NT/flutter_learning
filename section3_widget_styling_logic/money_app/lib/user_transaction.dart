@@ -14,7 +14,8 @@ class UserTransaction extends StatefulWidget {
   _UserTransactionState createState() => _UserTransactionState();
 }
 
-class _UserTransactionState extends State<UserTransaction> {
+class _UserTransactionState extends State<UserTransaction>
+    with WidgetsBindingObserver {
   final List<Transaction> transactions = [
     Transaction(DateTime.now().millisecondsSinceEpoch.toString(), "Buy a ball",
         23.45, DateTime.now()),
@@ -40,6 +41,24 @@ class _UserTransactionState extends State<UserTransaction> {
 
   final titleController = TextEditingController();
   final amountController = TextEditingController();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
 
   void startAddTransaction(BuildContext ctx) {
     showModalBottomSheet(
