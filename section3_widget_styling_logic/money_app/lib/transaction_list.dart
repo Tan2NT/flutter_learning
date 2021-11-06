@@ -37,41 +37,9 @@ class TransactionList extends StatelessWidget {
           })
         : ListView.builder(
             itemBuilder: (context, index) {
-              return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                elevation: 5,
-                child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: FittedBox(
-                          child: Text('\$${_userTransactions[index].amount}'),
-                        ),
-                      ),
-                    ),
-                    title: Text(
-                      _userTransactions[index].title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    subtitle: Text(DateFormat.yMMMd()
-                        .format(_userTransactions[index].date)),
-                    trailing: MediaQuery.of(context).size.width > 500
-                        ? FlatButton.icon(
-                            onPressed: () {
-                              _deleteHandler(_userTransactions[index].id);
-                            },
-                            textColor: Theme.of(context).errorColor,
-                            icon: Icon(Icons.delete),
-                            label: Text('delete'))
-                        : IconButton(
-                            onPressed: () {
-                              _deleteHandler(_userTransactions[index].id);
-                            },
-                            icon: Icon(Icons.delete),
-                            color: Theme.of(context).errorColor)),
-              );
-              //TransactionItem(_userTransactions[index])
+              return TransactionItem(
+                  transaction: _userTransactions[index],
+                  deleteHandler: _deleteHandler);
             },
             itemCount: _userTransactions.length,
           );
