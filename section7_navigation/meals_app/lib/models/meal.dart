@@ -5,7 +5,7 @@ enum Complexity { Simple, Challenging, Hard }
 enum Affordability { Affordable, Pricey, Luxurious }
 
 class Meal {
-  final String? id;
+  final String id;
   final List<String> categories;
   final String title;
   final String imageUrl;
@@ -14,13 +14,13 @@ class Meal {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
-  final bool isGluttenFree;
+  final bool isGlutenFree;
   final bool isLactoseFree;
   final bool isVegan;
-  final bool isVegerarian;
+  final bool isVegetarian;
 
-  Meal(
-      {@required this.id,
+  const Meal(
+      {@required this.id = '',
       required this.categories,
       required this.title,
       required this.imageUrl,
@@ -29,8 +29,8 @@ class Meal {
       required this.duration,
       required this.complexity,
       required this.affordability,
-      required this.isGluttenFree,
+      required this.isGlutenFree,
       required this.isLactoseFree,
       required this.isVegan,
-      required this.isVegerarian}) {}
+      required this.isVegetarian});
 }
