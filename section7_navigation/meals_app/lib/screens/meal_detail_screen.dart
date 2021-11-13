@@ -5,6 +5,11 @@ import 'package:meals_app/models/meal.dart';
 class MealDetailScreen extends StatelessWidget {
   static const routeName = '/meal-detail';
 
+  final Function(String) toggleFavorite;
+  final Function isFavorite;
+
+  MealDetailScreen(this.toggleFavorite, this.isFavorite);
+
   Widget buildSectionTitle(BuildContext context, String title) {
     return Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -44,10 +49,10 @@ class MealDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mealId = ModalRoute.of(context)!.settings.arguments as String;
     final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
-    return SingleChildScrollView(
-      child: Scaffold(
-        appBar: AppBar(title: Text(selectedMeal.title)),
-        body: Column(
+    return Scaffold(
+      appBar: AppBar(title: Text(selectedMeal.title)),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             Container(
               height: 300,
@@ -65,7 +70,7 @@ class MealDetailScreen extends StatelessWidget {
                             EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         child: Text(selectedMeal.ingredients[index]),
                       )),
-                  itemCount: selectedMeal.steps.length,
+                  itemCount: selectedMeal.ingredients.length,
                 )),
             buildSectionTitle(context, 'steps'),
             buildListViewItems(
@@ -86,12 +91,12 @@ class MealDetailScreen extends StatelessWidget {
                 ))
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.delete),
-          onPressed: () {
-            Navigator.of(context).pop(mealId);
-          },
-        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(isFavorite(mealId) ? Icons.star : Icons.border_all),
+        onPressed: () {
+          toggleFavorite(mealId);
+        },
       ),
     );
   }

@@ -50,7 +50,7 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
     final appTitle = categoryTitle == null ? '' : categoryTitle!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(appTitle!),
+        title: Text(appTitle),
       ),
       body: displayMeals == null
           ? Container()
@@ -64,7 +64,6 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
                   duration: meal.duration,
                   complexity: meal.complexity,
                   affordability: meal.affordability,
-                  removeItem: _removeMeal,
                 );
               },
               itemCount: displayMeals?.length),
