@@ -16,6 +16,11 @@ class Cart with ChangeNotifier {
     return {..._items};
   }
 
+  int get itemcount {
+    print('CardItem: ${_items.length}');
+    return _items.length;
+  }
+
   void addItem(String productId, String title, double price) {
     if (_items.containsKey(productId)) {
       _items.update(
@@ -29,5 +34,7 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(productId,
           () => CartItem(DateTime.now().toString(), title, 1, price));
     }
+    print('addItem: ${_items.length}');
+    notifyListeners();
   }
 }
