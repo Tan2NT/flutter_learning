@@ -13,6 +13,8 @@ import 'package:myshop/widgets/app_drawer.dart';
 enum FilterOptions { Favorites, All }
 
 class ProductOverviewScreen extends StatefulWidget {
+  static const routeName = '/shop';
+
   @override
   State<ProductOverviewScreen> createState() => _ProductOverviewScreenState();
 }
