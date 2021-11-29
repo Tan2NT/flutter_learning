@@ -27,9 +27,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
   };
 
   Product _editedProduct = Product(
-      id: "sdafs",
-      title: "dflsf",
-      description: 'dfsfsdf',
+      id: "",
+      title: "",
+      description: '',
       price: 0.3,
       imageUrl: 'https://aslfs',
       isFavorite: false);
@@ -43,9 +43,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void didChangeDependencies() {
     if (!_isInited) {
-      final productId = ModalRoute.of(context)!.settings.arguments as String;
-      _editedProduct =
-          Provider.of<Products>(context, listen: false).findById(productId);
+      final productId = ModalRoute.of(context)!.settings.arguments as String?;
+      if (productId != null)
+        _editedProduct =
+            Provider.of<Products>(context, listen: false).findById(productId);
       _initValues = {
         'title': _editedProduct.title,
         'description': _editedProduct.description,
