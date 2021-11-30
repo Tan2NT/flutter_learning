@@ -8,7 +8,7 @@ class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
 
   @override
-  State<EditProductScreen> createState() => _EditProductScreenState();
+  _EditProductScreenState createState() => _EditProductScreenState();
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
@@ -86,13 +86,34 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
 
     _form.currentState!.save();
+
     setState(() {
       _isLoading = true;
     });
+
     if (_editedProduct.id.isEmpty) {
       Provider.of<Products>(context, listen: false)
           .addProduct(_editedProduct)
-          .then((_) {
+          .catchError((error) {
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('An error occurred!'),
+            content: Text('Something went wrong.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        );
+      }).then((_) {
         setState(() {
           _isLoading = false;
         });
@@ -104,8 +125,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
       setState(() {
         _isLoading = false;
       });
+      Navigator.of(context).pop();
     }
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   @override

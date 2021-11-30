@@ -81,6 +81,9 @@ class Products with ChangeNotifier {
           isFavorite: product.isFavorite);
       _items.add(newProduct);
       notifyListeners();
+    }).catchError((error) {
+      print(error);
+      throw error;
     });
   }
 
