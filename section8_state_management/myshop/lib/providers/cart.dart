@@ -18,7 +18,6 @@ class Cart with ChangeNotifier {
   }
 
   int get itemcount {
-    print('CardItem: ${_items.length}');
     return _items.length;
   }
 
@@ -43,7 +42,6 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(productId,
           () => CartItem(DateTime.now().toString(), title, 1, price));
     }
-    print('addItem: ${_items.length}');
     notifyListeners();
   }
 
