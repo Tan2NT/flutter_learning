@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myshop/screens/auth_screen.dart';
 import 'package:myshop/screens/edit_product_screen.dart';
 import 'package:myshop/screens/user_products_screen.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import 'package:myshop/providers/products.dart';
 import 'screens/orders_screen.dart';
 import 'screens/user_products_screen.dart';
 import 'screens/edit_product_screen.dart';
+import 'screens/auth_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.deepOrange,
             fontFamily: 'Lato',
           ),
-          home: ProductOverviewScreen(),
+          home: AuthScreen(),
           routes: {
             ProductOverviewScreen.routeName: (ctx) => ProductOverviewScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
             OrdersScreen.routedName: (ctx) => OrdersScreen(),
             UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
             EditProductScreen.routeName: (ctx) => EditProductScreen(),
+            AuthScreen.routeName: (ctx) => AuthScreen(),
           },
         ));
   }
