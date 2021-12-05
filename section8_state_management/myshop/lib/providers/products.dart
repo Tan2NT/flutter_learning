@@ -15,6 +15,13 @@ class Products with ChangeNotifier {
     'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
   ];
 
+  final _baseURL =
+      'https://flutter-update-3bbe4-default-rtdb.asia-southeast1.firebasedatabase.app';
+
+  final String authtoken;
+
+  Products(this.authtoken, this._items);
+
   List<Product> _items = [
     // Product(
     //   id: 'p1',
@@ -69,8 +76,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    var url = Uri.parse(
-        'https://flutter-update-3bbe4-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
+    final url = Uri.parse('$_baseURL/products.json?auth=$authtoken');
     try {
       final response = await http.get(url);
       _items.clear();
@@ -92,8 +98,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    var url = Uri.parse(
-        'https://flutter-update-3bbe4-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
+    var url = Uri.parse('$_baseURL/products.json');
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -122,8 +127,7 @@ class Products with ChangeNotifier {
     try {
       final prodIndex = _items.indexWhere((prod) => prod.id == id);
       if (prodIndex >= 0) {
-        var url = Uri.parse(
-            'https://flutter-update-3bbe4-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json');
+        var url = Uri.parse('$_baseURL/products/$id.json');
         await http.patch(url,
             body: json.encode({
               'title': newProduct.title,
@@ -140,8 +144,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    var url = Uri.parse(
-        'https://flutter-update-3bbe4-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json');
+    var url = Uri.parse('$_baseURL/products/$id.json');
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     final existingProduct = _items[existingProductIndex];
     final response = await http.delete(url);
