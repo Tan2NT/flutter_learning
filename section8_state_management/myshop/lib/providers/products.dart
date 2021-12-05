@@ -43,8 +43,11 @@ class Products with ChangeNotifier {
     return _items.firstWhere((item) => item.id == id);
   }
 
-  Future<void> fetchAndSetProducts() async {
-    final url = Uri.parse('$_baseURL/products.json?auth=$authtoken');
+  Future<void> fetchAndSetProducts(bool filterByUser) async {
+    final url = filterByUser == true
+        ? Uri.parse(
+            '$_baseURL/products.json?auth=$authtoken&orderBy="creatorId"&equalTo="$userId"')
+        : Uri.parse('$_baseURL/products.json?auth=$authtoken');
     try {
       final response = await http.get(url);
       _items.clear();
@@ -52,10 +55,9 @@ class Products with ChangeNotifier {
       if (extractedData == null) {
         return;
       }
-      final baseUrl =
-          'https://flutter-update-3bbe4-default-rtdb.asia-southeast1.firebasedatabase.app';
-      final favoriteUrl = Uri.parse(
-          'https://flutter-update-3bbe4-default-rtdb.asia-southeast1.firebasedatabase.app/userFavorites/$userId.json?auth=$authtoken');
+
+      final favoriteUrl =
+          Uri.parse('$_baseURL/userFavorites/$userId.json?auth=$authtoken');
       final favoriteResponse = await http.get(favoriteUrl);
       final favoriteData = json.decode(favoriteResponse.body);
 
@@ -86,6 +88,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
+            'cretorId': userId
           }));
 
       final newProduct = Product(
