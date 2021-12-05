@@ -98,7 +98,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    var url = Uri.parse('$_baseURL/products.json');
+    var url = Uri.parse('$_baseURL/products.json?auth=$authtoken');
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -127,7 +127,7 @@ class Products with ChangeNotifier {
     try {
       final prodIndex = _items.indexWhere((prod) => prod.id == id);
       if (prodIndex >= 0) {
-        var url = Uri.parse('$_baseURL/products/$id.json');
+        var url = Uri.parse('$_baseURL/products/$id.json?auth=$authtoken');
         await http.patch(url,
             body: json.encode({
               'title': newProduct.title,
@@ -144,7 +144,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    var url = Uri.parse('$_baseURL/products/$id.json');
+    var url = Uri.parse('$_baseURL/products/$id.json?auth=$authtoken');
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     final existingProduct = _items[existingProductIndex];
     final response = await http.delete(url);
