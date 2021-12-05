@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/http_exception.dart';
+
 enum AuthMode { Signup, Login }
 
 class Auth with ChangeNotifier {
@@ -18,10 +20,20 @@ class Auth with ChangeNotifier {
     final authType =
         authMode == AuthMode.Signup ? 'signUp' : 'signInWithPassword';
     final url = Uri.parse('$_baseURL:$authType?key=$_apiKey');
-    final response = await http.post(url,
-        body: json.encode(
-            {'email': email, 'password': password, 'returnSecureToken': true}));
-    print(json.decode(response.body));
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'email': email,
+            'password': password,
+            'returnSecureToken': true
+          }));
+      final responseData = json.decode(response.body);
+      if (responseData['error'] != null) {
+        throw HttpException(responseData['error']['message']);
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 
   Future<void> signup(String email, String password) async {
