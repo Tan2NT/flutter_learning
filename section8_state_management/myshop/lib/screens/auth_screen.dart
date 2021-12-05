@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:myshop/providers/auth.dart';
 
-enum AuthMode { Signup, Login }
-
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
 
@@ -105,13 +103,10 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
-    if (_authMode == AuthMode.Login) {
-      // Log user in
-    } else {
-      // Sign user up
-      await Provider.of<Auth>(context, listen: false).signup(
-          _authData['email'] as String, _authData['password'] as String);
-    }
+    await Provider.of<Auth>(context, listen: false).authenticate(
+        _authData['email'] as String,
+        _authData['password'] as String,
+        _authMode);
     setState(() {
       _isLoading = false;
     });
