@@ -40,23 +40,25 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(create: (_) => Auth())
         ],
-        child: MaterialApp(
-          title: 'MyShop',
-          theme: ThemeData(
-            primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
-            fontFamily: 'Lato',
+        child: Consumer<Auth>(
+          builder: (ctx, auth, _) => MaterialApp(
+            title: 'MyShop',
+            theme: ThemeData(
+              primarySwatch: Colors.purple,
+              accentColor: Colors.deepOrange,
+              fontFamily: 'Lato',
+            ),
+            home: auth.isAuth ? ProductOverviewScreen() : AuthScreen(),
+            routes: {
+              ProductOverviewScreen.routeName: (ctx) => ProductOverviewScreen(),
+              ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+              CartScreen.routedName: (ctx) => CartScreen(),
+              OrdersScreen.routedName: (ctx) => OrdersScreen(),
+              UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+              EditProductScreen.routeName: (ctx) => EditProductScreen(),
+              AuthScreen.routeName: (ctx) => AuthScreen(),
+            },
           ),
-          home: AuthScreen(),
-          routes: {
-            ProductOverviewScreen.routeName: (ctx) => ProductOverviewScreen(),
-            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-            CartScreen.routedName: (ctx) => CartScreen(),
-            OrdersScreen.routedName: (ctx) => OrdersScreen(),
-            UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
-            EditProductScreen.routeName: (ctx) => EditProductScreen(),
-            AuthScreen.routeName: (ctx) => AuthScreen(),
-          },
         ));
   }
 }

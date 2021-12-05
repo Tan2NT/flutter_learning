@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myshop/screens/product_overview_screen.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
 
@@ -125,6 +126,8 @@ class _AuthCardState extends State<AuthCard> {
           _authData['email'] as String,
           _authData['password'] as String,
           _authMode);
+      Navigator.of(context)
+          .pushReplacementNamed(ProductOverviewScreen.routeName);
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('EMAIL_EXISTS')) {
@@ -139,9 +142,6 @@ class _AuthCardState extends State<AuthCard> {
         errorMessage = 'The password is incorrect.';
       }
       _showErrorDialog(errorMessage);
-      if (_authMode == AuthMode.Login) {
-        errorMessage = error.message;
-      } else {}
     } catch (error) {
       var errorMessage = '';
       errorMessage = 'could not authenticate you. Please try again later.';

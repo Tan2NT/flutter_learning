@@ -78,10 +78,10 @@ class Products with ChangeNotifier {
       extractedData.forEach((productId, productData) {
         _items.add(Product(
             id: productId,
-            title: productData['title'],
-            description: productData['description'],
+            title: productData['title'] as String,
+            description: productData['description' as String],
             price: productData['price'],
-            // imageUrl: productData['imageUrl'],
+            //imageUrl: productData['imageUrl'],
             imageUrl: _imageUrls[Random().nextInt(_imageUrls.length - 1)],
             isFavorite: productData['isFavorite']));
         notifyListeners();
