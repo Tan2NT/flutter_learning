@@ -17,7 +17,7 @@ class Auth with ChangeNotifier {
   final String _baseURL = 'https://identitytoolkit.googleapis.com/v1/accounts';
 
   bool get isAuth {
-    return token != null;
+    return token != null && token != '';
   }
 
   String? get token {
@@ -27,6 +27,10 @@ class Auth with ChangeNotifier {
       return _token;
     }
     return null;
+  }
+
+  String get userId {
+    return _userId;
   }
 
   Future<void> authenticate(
