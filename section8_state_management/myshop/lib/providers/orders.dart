@@ -16,39 +16,45 @@ class OrderItem {
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
   final String authtoken;
+  final String userId;
+
   final String _baseURL =
       'https://flutter-update-3bbe4-default-rtdb.asia-southeast1.firebasedatabase.app';
 
-  Orders(this.authtoken, this._orders);
+  Orders(this.authtoken, this.userId, this._orders);
 
   List<OrderItem> get orders {
     return _orders;
   }
 
   Future<void> fetchAndSetOrders() async {
-    var url = Uri.parse('/orders.json');
-    final response = await http.get(url);
-    final List<OrderItem> loadedOrders = [];
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    if (extractedData == null) {
-      return;
+    var url = Uri.parse('$_baseURL/orders/$userId.json?auth=$authtoken');
+    try {
+      final response = await http.get(url);
+      final List<OrderItem> loadedOrders = [];
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) {
+        return;
+      }
+      extractedData.forEach((orderId, orderData) {
+        loadedOrders.add(OrderItem(
+            orderId,
+            orderData['amount'],
+            (orderData['products'] as List<dynamic>)
+                .map((item) => CartItem(
+                    item['id'], item['title'], item['quantity'], item['price']))
+                .toList(),
+            DateTime.parse(orderData['dateTime'])));
+      });
+      _orders = loadedOrders.reversed.toList();
+      notifyListeners();
+    } catch (error) {
+      print('get orders error: ${error.toString()}');
     }
-    extractedData.forEach((orderId, orderData) {
-      loadedOrders.add(OrderItem(
-          orderId,
-          orderData['amount'],
-          (orderData['products'] as List<dynamic>)
-              .map((item) => CartItem(
-                  item['id'], item['title'], item['quantity'], item['price']))
-              .toList(),
-          DateTime.parse(orderData['dateTime'])));
-    });
-    _orders = loadedOrders.reversed.toList();
-    notifyListeners();
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
-    var url = Uri.parse('$_baseURL/orders.json?auth=$authtoken');
+    var url = Uri.parse('$_baseURL/orders/$userId.json?auth=$authtoken');
     final timestamp = DateTime.now();
     final response = await http.post(url,
         body: json.encode({
