@@ -17,16 +17,15 @@ class Auth with ChangeNotifier {
   final String _baseURL = 'https://identitytoolkit.googleapis.com/v1/accounts';
 
   bool get isAuth {
-    return token != null && token != '';
+    return token.isNotEmpty;
   }
 
-  String? get token {
-    if (_expiredDate != null &&
-        _expiredDate!.isAfter(DateTime.now()) &&
-        _token != null) {
+  String get token {
+    if (_expiredDate == null) return '';
+    if (_expiredDate!.isAfter(DateTime.now()) && _token.isNotEmpty) {
       return _token;
     }
-    return null;
+    return '';
   }
 
   String get userId {
@@ -71,5 +70,6 @@ class Auth with ChangeNotifier {
     _token = '';
     _userId = '';
     _expiredDate = null;
+    notifyListeners();
   }
 }
