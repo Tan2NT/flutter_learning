@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +13,7 @@ class Auth with ChangeNotifier {
   String _token = '';
   DateTime? _expiredDate = null;
   String _userId = '';
+  Timer? _authTimer = null;
 
   final String _apiKey = 'AIzaSyC-jEsZDUolsU-I8fBmhoPOAKnCurCwNUE';
   final String _baseURL = 'https://identitytoolkit.googleapis.com/v1/accounts';
@@ -52,6 +54,7 @@ class Auth with ChangeNotifier {
       _userId = responseData['localId'];
       _expiredDate = DateTime.now()
           .add(Duration(seconds: int.parse(responseData['expiresIn'])));
+      _autoLogout();
       notifyListeners();
     } catch (error) {
       throw error;
@@ -70,6 +73,16 @@ class Auth with ChangeNotifier {
     _token = '';
     _userId = '';
     _expiredDate = null;
+    if (_authTimer != null) {
+      _authTimer!.cancel();
+    }
     notifyListeners();
+  }
+
+  void _autoLogout() {
+    if (_expiredDate == null) return;
+    if (_authTimer != null) _authTimer!.cancel();
+    final timeToExpiry = _expiredDate!.difference(DateTime.now()).inSeconds;
+    _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 }
