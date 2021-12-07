@@ -10,7 +10,7 @@ enum AuthMode { Signup, Login }
 
 class Auth with ChangeNotifier {
   String _token = '';
-  DateTime _expiredDate = DateTime.now();
+  DateTime? _expiredDate = null;
   String _userId = '';
 
   final String _apiKey = 'AIzaSyC-jEsZDUolsU-I8fBmhoPOAKnCurCwNUE';
@@ -22,7 +22,7 @@ class Auth with ChangeNotifier {
 
   String? get token {
     if (_expiredDate != null &&
-        _expiredDate.isAfter(DateTime.now()) &&
+        _expiredDate!.isAfter(DateTime.now()) &&
         _token != null) {
       return _token;
     }
@@ -65,5 +65,11 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     return authenticate(email, password, AuthMode.Login);
+  }
+
+  void logout() {
+    _token = '';
+    _userId = '';
+    _expiredDate = null;
   }
 }
