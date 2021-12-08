@@ -119,6 +119,6 @@ class Auth with ChangeNotifier {
     if (_expiredDate == null) return;
     if (_authTimer != null) _authTimer!.cancel();
     final timeToExpiry = _expiredDate!.difference(DateTime.now()).inSeconds;
-    _authTimer = Timer(Duration(seconds: 10), logout);
+    _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 }
